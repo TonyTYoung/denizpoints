@@ -1,0 +1,34 @@
+query TournamentsByVideogame($page: Int!, $perPage: Int!, $videogameId: ID!, $afterDate: Timestamp) {
+  tournaments(query: {
+    perPage: $perPage
+    page: $page
+    sortBy: "startAt DESC"
+    filter: {
+      past: true
+      afterDate: $afterDate
+      videogameIds: [
+        $videogameId
+      ]
+    }
+  }) {
+    nodes {
+      id
+      name
+      slug
+      city
+      addrState
+      countryCode
+      state
+      startAt
+      events (filter: {
+        videogameId: [$videogameId]
+      }) {
+        id
+        state
+        slug
+        numEntrants
+        isOnline
+      }
+    }
+  }
+}
